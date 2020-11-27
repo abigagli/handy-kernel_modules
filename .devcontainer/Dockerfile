@@ -25,27 +25,27 @@ RUN apt-get install -y python3 python3-pip python3-wheel && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
 
 ARG WORKSPACE="/ws"
-ARG BUILDROOT_NAME="2020.08.2"
-ARG LINUX_NAME="linux-5.5"
-ARG COMPILER_NAME="gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu"
+ARG BUILDROOT_ID="2020.08.2"
+ARG LINUX_ID="linux-5.5"
+ARG COMPILER_ID="gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu"
 
 # Download and extract sources
 RUN cd /tmp && \
     mkdir -p ${WORKSPACE} && \
     \
-    wget https://releases.linaro.org/components/toolchain/binaries/latest-7/aarch64-linux-gnu/${COMPILER_NAME}.tar.xz && \
-    tar -xf ${COMPILER_NAME}.tar.xz -C ${WORKSPACE} && \
+    wget https://releases.linaro.org/components/toolchain/binaries/latest-7/aarch64-linux-gnu/${COMPILER_ID}.tar.xz && \
+    tar -xf ${COMPILER_ID}.tar.xz -C ${WORKSPACE} && \
     \
-    wget https://cdn.kernel.org/pub/linux/kernel/v5.x/${LINUX_NAME}.tar.xz && \
-    tar -xf ${LINUX_NAME}.tar.xz -C ${WORKSPACE} && \
+    wget https://cdn.kernel.org/pub/linux/kernel/v5.x/${LINUX_ID}.tar.xz && \
+    tar -xf ${LINUX_ID}.tar.xz -C ${WORKSPACE} && \
     \
-    wget https://github.com/buildroot/buildroot/archive/${BUILDROOT_NAME}.tar.gz && \
-    tar -xf ${BUILDROOT_NAME}.tar.gz -C ${WORKSPACE}
+    wget https://github.com/buildroot/buildroot/archive/${BUILDROOT_ID}.tar.gz && \
+    tar -xf ${BUILDROOT_ID}.tar.gz -C ${WORKSPACE}
 
 
-ARG BUILDROOT_HOME=${WORKSPACE}/${BUILDROOT_NAME}
-ARG LINUX_HOME=${WORKSPACE}/${LINUX_NAME}
-ARG COMPILER_HOME=${WORKSPACE}/${COMPILER_NAME}
+ARG BUILDROOT_HOME="${WORKSPACE}/buildroot-${BUILDROOT_ID}"
+ARG LINUX_HOME="${WORKSPACE}/${LINUX_ID}"
+ARG COMPILER_HOME="${WORKSPACE}/${COMPILER_ID}"
 
 ENV PATH="${COMPILER_HOME}/bin:$PATH"
 WORKDIR ${WORKSPACE}
@@ -69,16 +69,15 @@ RUN cd ${LINUX_HOME} && \
     make aarch64-softmmu_kernel_defconfig && \
     make -j${NUM_CPUS}
 
-ARG QEMU_VERSION="5.1.0"
-ARG QEMU_NAME="qemu-${QEMU_VERSION}"
-ARG QEMU_HOME=${WORKSPACE}/${QEMU_NAME}
+ARG QEMU_ID="5.1.0"
+ARG QEMU_HOME="${WORKSPACE}/qemu-${QEMU_ID}"
 # Build Qemu
 # NOTE: QEMU archive downloaded from github.com
 # does not work. https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg01676.html
 RUN mkdir -p ${QEMU_HOME} && \
     cd ${QEMU_HOME} && \
     git clone https://git.qemu.org/git/qemu.git . && \
-    git checkout v${QEMU_VERSION} && \
+    git checkout v${QEMU_ID} && \
     ./configure --target-list=aarch64-softmmu && \
     make -j${NUM_CPUS}
 
