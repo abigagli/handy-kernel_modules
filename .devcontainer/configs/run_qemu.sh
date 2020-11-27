@@ -1,10 +1,17 @@
 # !/bin/bash
 
-export WORKSPACE="/ws"
-export BUILDROOT_HOME="${WORKSPACE}/buildroot-2019.08.3"
-export LINUX_HOME="${WORKSPACE}/linux-5.5"
-export QEMU_HOME="${WORKSPACE}/qemu-4.2.0"
-export COMPILER_HOME="${WORKSPACE}/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu"
+WORKSPACE="/ws"
+
+BUILDROOT_NAME="buildroot-2020.08.2"
+LINUX_NAME="linux-5.5"
+COMPILER_NAME="gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu"
+QEMU_VERSION="5.1.0"
+QEMU_NAME="qemu-${QEMU_VERSION}"
+
+BUILDROOT_HOME="${WORKSPACE}/${BUILDROOT_NAME}"
+LINUX_HOME="${WORKSPACE}/${LINUX_NAME}"
+COMPILER_HOME="${WORKSPACE}/${COMPILER_NAME}"
+QEMU_HOME="${WORKSPACE}/${QEMU_NAME}"
 
 echo "===== Launch QEMU"
 ${QEMU_HOME}/aarch64-softmmu/qemu-system-aarch64 \

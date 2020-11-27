@@ -1,5 +1,11 @@
 {
-    "image": "qemu:latest",
+  /*
+    "name": "qemu_container",
+    "build": {
+      "dockerfile": "Dockerfile"
+    },
+    */
+    "image": "myqemu:latest",
     "runArgs": [ 
       "--network=host", 
       "--cap-add=SYS_PTRACE", 
