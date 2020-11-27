@@ -37,4 +37,4 @@ __pycache__
 .*.*.cmd
 build-*
 .devcontainer/sources
-*/compile_commands.json
+compile_commands.json
