@@ -78,7 +78,7 @@ RUN mkdir -p ${QEMU_HOME} && \
     cd ${QEMU_HOME} && \
     git clone https://git.qemu.org/git/qemu.git . && \
     git checkout v${QEMU_ID} && \
-    ./configure --target-list=aarch64-softmmu && \
+    ./configure --target-list=aarch64-softmmu,arm-softmmu && \
     make -j${NUM_CPUS}
 
 RUN apt-get clean && \
